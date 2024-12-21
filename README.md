@@ -38,3 +38,52 @@ InstalledDir: C:\Program Files\LLVM\bin
 ```
 
 *in the output you will see at the <i>Target</i> tag which adress the msvc (Microsofrt Visual C++), the reason for that is tha tthe MSVC is used by Clang to compile code that runs on Windows with MSVC-compatible binary formats and libraries. If you use linux as operating system, your output will look slightly different like <i>x86_64-pc-linux-gnu</i>, bcause Clang is using another toolchain on your platform.
+
+## Get Qt running
+
+The visualization is build with the Qt libary. Because Qt has a dependency to the compiler, it is important to know which compiler is installed on the system and should be use. In the following are guidelines for some compilers and operating system combinations.
+
+### Clang
+
+In this section will be describe how to use Clang as Compiler for the Qt libary. The instructions will be shown for the linux and windows os.
+
+#### Windows
+
+1. Check if Clang is installed correctly. Use the following command to check that:
+
+```bash
+clang --version
+```
+2. CMake should be installed and part of the system enviroment variables
+3. Clone qt6 via git (qt6 is part of qt5) outside of the project:
+
+```bash
+git clone --branch v6.8.1 --depth 1 https://github.com/qt/qt5.git
+cd qt5
+./init-repository
+```
+4. Create a subfolder in the qt5 folder called <i>build</i> and enter it
+```bash
+mkdir build
+cd build
+```
+5. Install Ninja as build-tool on Windows using the powershell as admin
+
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+choco install ninja
+
+ninja --version
+```
+
+5. Configure CMake to build it with Ninja for Clang (a lot of warning can occur, but don´t worry while the process is still running)
+```bash
+cmake .. -G "Ninja" -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Release
+```
+6. Restart bash window
+6. Use Ninja, CMake or another build tool to start the build process
+
+```bash
+cmake --build . --config Release
+```
