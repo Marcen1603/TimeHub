@@ -79,11 +79,11 @@ ninja --version
 
 5. Configure CMake to build it with Ninja for Clang (a lot of warning can occur, but don´t worry while the process is still running)
 ```bash
-cmake .. -G "Ninja" -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Release
+cmake -S . -B build
 ```
 6. Restart bash window
 6. Use Ninja, CMake or another build tool to start the build process
 
 ```bash
-cmake --build . --config Release
+cmake --build build
 ```
